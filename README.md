@@ -3,7 +3,7 @@
 ## Overview
 
 Amazon-like storefront app utilizing MySQL and Node.js. The app takes in orders from customers and deducts stock from the store's inventory per user request. The Customer View is operating and detailed below. I am in the process of completeing the MGMT version which will be equipped to track product sales across the store's departments and provides additional information about the inventory per manager input.
-- - -
+
 
 ### Customer View
 
@@ -70,4 +70,11 @@ Amazon-like storefront app utilizing MySQL and Node.js. The app takes in orders 
 
 - - -
 
+**Author** 
+
+Ryn Escarra-Cypher [@RESCARRA](https://github.com/rescarra)
+
+2017
+
+[Code of Conduct](Bamazon/CODE_OF_CONDUCT.md)
 
