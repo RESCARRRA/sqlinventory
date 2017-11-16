@@ -1,6 +1,8 @@
-var mysql = require("mysql");
+ var mysql = require("mysql");
 var inquirer = require("inquirer");
-require('console.table');
+var Table = require("cli-table")
+
+// require('console.table');
 var chalk = require('chalk');
 
 
@@ -23,33 +25,39 @@ connection.connect(function(err) {
 var design = chalk.white.bold("________________________________________________");
 
 function viewProducts() {
-    //show all ids, names, and products from database.
     connection.query('SELECT * FROM products', function(err, res) {
-        if (err) {
-            console.log(err)
-        };
-        var column = ['ID', 'Product', 'Department', 'Price', 'Quantity'];
-        var values = [];
+        if (err) { console.log(err) };
+        // Table Constructor using npm hinted @ in challenge 3...
+        var productsTable = new Table({
+            head: ['ID', 'Product', 'Department', 'Price', 'Quantity'],
+            //set colum widths to fit column headers
+            columns: [10, 20, 20, 10, 10]
+        });
+        //for each row of the loop
         for (i = 0; i < res.length; i++) {
-            var rowValue = [res[i].item_id, res[i].product_name, res[i].department_name, "$" + res[i].price, res[i].quantity];
-            values.push(rowValue);
+            productsTable.push(
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].quantity]
+            );
         }
-        var productTitle = chalk.white.bold.bgBlack("~~~~***~***~~~~ BAMAZON PRODUCTS ~~~~***~***~~~~")
-        console.table(productTitle);
-        console.log(design);
-        console.log("");
-        console.table(column, values);
+        //log the completed table to console
+        console.log('');
+        console.log(productsTable.toString());
+        console.log('');
+        console.log('');
         inquireMGMT();
     });
 }; // viewProducts closure
+
 function inquireMGMT() {
-    console.log("INQUIRE-MGMT HAPPENED!!!!");
+    // console.log("INQUIRE-MGMT HAPPENED!!!!");
+    connection.query("SELECT LAST_INSERT_ID()");
     //inquire for input
     inquirer.prompt([{
             name: "action",
             type: "list",
             message: "MGMT - choose an option below:",
-            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory"] 
+            // "Add New Product"
     }])
         .then(function(answers) {
 
@@ -63,9 +71,12 @@ function inquireMGMT() {
                 case 'Add to Inventory':
                     addToInventory();
                     break;
-                case 'Add New Product':
-                    addNewProduct();
-                    break;
+                // case 'Add New Product':
+                //     addNewProduct();
+                //     break;
+                default: 'View Products For Sale'
+                viewProductsSale();
+                break;
             }
         });
 }; // inquireMGMT closure
@@ -97,7 +108,7 @@ function addInventory(addedIDs, addedUnits) {
         if (err) {
             console.log(err)
         };
-        connection.query('UPDATE products SET quantity = quantity + ' + addedUnits + ' WHERE item_id = ' + id);
+        connection.query('UPDATE products SET quantity = quantity + ' + addedUnits + ' WHERE item_id = ' + addedIDs);
         //re-run display to show updated results
         viewProducts();
         inquireMGMT();
@@ -106,41 +117,46 @@ function addInventory(addedIDs, addedUnits) {
 
 // ADD NEW PRODUCT (2 functions to retrieve input & update DB)
 // ============================================================================
-function addNewProduct() {
-    console.log("ADD-NEW-PRODUCT HAPPENED!!!!");
-    inquirer.prompt([{
-            name: "product_name",
-            type: "input",
-            message: "What is the name of the product you wish to add?"
-    }, {
-            name: 'department_name',
-            type: 'input',
-            message: "What is the department to which this product belongs?"
-    }, {
-            name: 'price',
-            type: 'input',
-            message: "What is the price of said product?"
-    }, {
-            name: 'quantity',
-            type: 'input',
-            message: "How many units do you wish to add to the inventory?"
-    }, ])
-        .then(function(answers) {
-            var name = answers.product_name;
-            var dept = answers.department_name;
-            var price = answers.price;
-            var quantity = answers.quantity;
-            addProduct(name, dept, price, quantity);
-        });
-}; //end addNewProduct
-function addProduct(name, dept, price, quantity) {
-    console.log("ADD-PRODUCT2 HAPPENED!!!!");
-    //query database, insert new item
-    connection.query('INSERT INTO products (item_id, product_name, department_name, price, quantity) VALUES("' + name + ',' + dept + ',' + price + ',' + quantity + '")');
-    //display updated results
-    viewProducts();
-    inquireMGMT();
-}; //end addProduct
+// function addNewProduct() {
+//     console.log("ADD-NEW-PRODUCT HAPPENED!!!!");
+//     inquirer.prompt([{
+//             name: "item_id",
+//             type: "input",
+//             message: "What is the ID of the product you wish to add?"
+//     }, {    
+//             name: "product_name",
+//             type: "input",
+//             message: "What is the name of the product you wish to add?"
+//     }, {
+//             name: 'department_name',
+//             type: 'input',
+//             message: "What is the department to which this product belongs?"
+//     }, {
+//             name: 'price',
+//             type: 'input',
+//             message: "What is the price of said product?"
+//     }, {
+//             name: 'quantity',
+//             type: 'input',
+//             message: "How many units do you wish to add to the inventory?"
+//     }, ])
+//         .then(function(answers) {
+//             var item_id = answers.item_id;
+//             var product_name = answers.product_name;
+//             var department_name = answers.department_name;
+//             var price = answers.price;
+//             var quantity = answers.quantity;
+//             addProduct(item_id, product_name, department_name, price, quantity);
+//         });
+// }; //end addNewProduct
+// function addProduct(item_id, product_name, department_name, price, quantity) {
+//     console.log("ADD-PRODUCT2 HAPPENED!!!!");
+//     //query database, insert new item
+//     connection.query('INSERT INTO products (item_id, product_name, department_name, price, quantity) VALUES("'item_id' ,'product_name',' department_name',' + price + ',' + quantity + '")');
+//     //display updated results
+//     viewProducts();
+//     inquireMGMT();
+// }; //end addProduct
 // VIEW SALE PRODUCT (description)
 // ============================================================================
 function viewProductsSale() {
