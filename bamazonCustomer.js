@@ -121,9 +121,6 @@ function checkInventory(purchaseID, purchaseUnits) {
       // Present invoice/receipt for purchase to user
       console.log('');
       console.log('');
-      console.log('');
-      console.log('');
-      console.log('');
       console.log(design);
       console.log(chalk.green.bold.bgBlack("$$$ RECEIPT $$$"));
      
@@ -133,9 +130,7 @@ function checkInventory(purchaseID, purchaseUnits) {
       console.log(design);
       console.log('');
       console.log('');
-      console.log('');
-      console.log('');
-      console.log('');
+ 
       
       // Update Products table with new quantity post-purchase
       connection.query("UPDATE products SET quantity = quantity - ? WHERE item_id = ?", data);
@@ -143,8 +138,10 @@ function checkInventory(purchaseID, purchaseUnits) {
     else {
       console.log('');
       console.log('');
+      console.log('');
       console.log(chalk.red.bold.bgBlack("Insufficient quantity of product: " + res[0].product_name + "."));
       console.log('Please try another item.');
+      console.log('');
       console.log('');
     };
     viewProducts();
