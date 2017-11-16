@@ -42,7 +42,10 @@ Amazon-like storefront app utilizing MySQL and Node.js. The app takes in orders 
    
    * The SQL database is updated in workbench and terminal to reflect the remaining quantity.
    * The customer is shown the total cost of their purchase.
-   
+
+#### Video Guide
+ ![Bamazon](https://github.com/rescarra/Bamazon/blob/master/gif-bamazon.gif "Bamazon")
+
 ### Technologies
 > Javascript
 >
@@ -65,8 +68,6 @@ Amazon-like storefront app utilizing MySQL and Node.js. The app takes in orders 
 >
 >[[`npm chalk`]](https://www.npmjs.com/package/chalk)
 
-#### Video Guide
- ![Bamazon](https://github.com/rescarra/Bamazon/blob/master/gif-bamazon.gif "Bamazon")
 - - -
 
 
