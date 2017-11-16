@@ -15,5 +15,13 @@
     "config": "^1.28.1",
     "inquirer": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rescarra/Bamazon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rescarra/Bamazon/issues"
+  },
+  "homepage": "https://github.com/rescarra/Bamazon#readme"
 }

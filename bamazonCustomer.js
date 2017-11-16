@@ -6,7 +6,9 @@ var chalk = require('chalk');
 var design = chalk.white.bold("________________________________________________");
 
 // TABLE FORMATS
-  // Instead of using the cli-table npm, another option is the console.table (listed above and commented out below). All operates the same and can be 'toggled' given your preferred table format by commenting or uncommenting the 2nd viewProducts and require('console.table') function/s below.
+  // Instead of using the cli-table npm, another option is the console.table (listed above and commented out below). 
+  // All operates the same and can be 'toggled' given your preferred table format by commenting or uncommenting the 
+  // 2nd viewProducts and require('console.table') function/s below.
 
 
 // require('console.table');
@@ -40,7 +42,10 @@ function viewProducts() {
             );
         }
         //log the completed table to console
+        console.log('');
         console.log(productsTable.toString());
+        console.log('');
+        console.log('');
         purchaseRequest();
     });
   };
@@ -111,6 +116,7 @@ function checkInventory(purchaseID, purchaseUnits) {
     };
     if (purchaseUnits <= res[0].quantity) {
       var amountOwed = res[0].price * purchaseUnits;
+      amountOwed = amountOwed.toFixed(2);
 
       // Present invoice/receipt for purchase to user
       console.log('');
@@ -135,7 +141,11 @@ function checkInventory(purchaseID, purchaseUnits) {
       connection.query("UPDATE products SET quantity = quantity - ? WHERE item_id = ?", data);
     }
     else {
-      console.log("Insufficient quantity of product: " + res[0].product_name);
+      console.log('');
+      console.log('');
+      console.log(chalk.red.bold.bgBlack("Insufficient quantity of product: " + res[0].product_name + "."));
+      console.log('Please try another item.');
+      console.log('');
     };
     viewProducts();
   });

@@ -10,7 +10,8 @@ For this assignment, I created an Amazon-like storefront with MySQL and Node.js.
 ### Challenge #1: Customer View (Components)
 
 #### Video Guide
-![alt text](video-bamazon.mov "Bamazon")
+<!-- ![alt text](video-bamazon.mov "Bamazon")
+ -->![alt text](gif-bamazon.gif "Bamazon")
 
 - MySQL Database called `bamazon`.
 
